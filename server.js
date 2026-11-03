@@ -6,10 +6,11 @@ const crypto = require('crypto');
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = __dirname;
 const IS_VERCEL = !!process.env.VERCEL;
-const DATA_FILE = path.join(PUBLIC_DIR, 'data', 'content.json');
+const DATA_FILE = IS_VERCEL ? path.join('/tmp', 'content.json') : path.join(PUBLIC_DIR, 'data', 'content.json');
 const AUTH_FILE = IS_VERCEL ? path.join('/tmp', 'auth.json') : path.join(PUBLIC_DIR, 'data', 'auth.json');
 const SESSIONS_FILE = IS_VERCEL ? path.join('/tmp', 'sessions.json') : path.join(PUBLIC_DIR, 'data', 'sessions.json');
 const ORDERS_FILE = IS_VERCEL ? path.join('/tmp', 'orders.json') : path.join(PUBLIC_DIR, 'data', 'orders.json');
+const UPLOAD_DIR = IS_VERCEL ? path.join('/tmp', 'assets') : path.join(PUBLIC_DIR, 'assets');
 const LOGIN_FILE = path.join(PUBLIC_DIR, 'login.html');
 const ADMIN_FILE = path.join(PUBLIC_DIR, 'admin.html');
 const INDEX_FILE = path.join(PUBLIC_DIR, 'index.html');
@@ -285,10 +286,21 @@ const server = http.createServer(async (req, res) => {
         const data = fs.readFileSync(DATA_FILE, 'utf-8');
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
         return res.end(data);
-      } else {
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        return res.end(JSON.stringify({ error: 'content.json not found' }));
       }
+      const bundledData = path.join(PUBLIC_DIR, 'data', 'content.json');
+      if (fs.existsSync(bundledData)) {
+        const data = fs.readFileSync(bundledData, 'utf-8');
+        if (IS_VERCEL) {
+          try {
+            if (!fs.existsSync(path.dirname(DATA_FILE))) fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
+            fs.writeFileSync(DATA_FILE, data, 'utf-8');
+          } catch(e){}
+        }
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(data);
+      }
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end('{}');
     } catch (e) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ error: e.message }));
@@ -347,6 +359,31 @@ const server = http.createServer(async (req, res) => {
     if (!isAuthenticated(req)) {
       res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
       return res.end(JSON.stringify({ ok: false, error: 'অননুমোদিত অ্যাক্সেস! অনুগ্রহ করে লগইন করুন।' }));
+    }
+    try {
+      const payload = await readJsonBody(req);
+      const { filename, data } = payload;
+      if (!filename || !data) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'filename and data are required' }));
+      }
+      // sanitize filename
+      const cleanName = path.basename(filename).replace(/[^a-zA-Z0-9._-]/g, '_');
+      const base64Data = data.replace(/^data:([A-Za-z-+/]+);base64,/, '');
+      const buffer = Buffer.from(base64Data, 'base64');
+      if (!fs.existsSync(UPLOAD_DIR)) {
+        fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+      }
+      const targetPath = path.join(UPLOAD_DIR, cleanName);
+      fs.writeFileSync(targetPath, buffer);
+
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({ ok: true, path: `assets/${cleanName}` }));
+    } catch (e) {
+      res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({ error: e.message }));
+    }
+  }
     }
     try {
       const payload = await readJsonBody(req);
@@ -518,8 +555,15 @@ const server = http.createServer(async (req, res) => {
     reqPath = '/admin.html';
   }
 
-  const safePath = path.normalize(path.join(PUBLIC_DIR, reqPath));
-  if (!safePath.startsWith(PUBLIC_DIR)) {
+  let safePath = path.normalize(path.join(PUBLIC_DIR, reqPath));
+  if (IS_VERCEL && reqPath.startsWith('/assets/')) {
+    const uploadedAsset = path.join(UPLOAD_DIR, path.basename(reqPath));
+    if (fs.existsSync(uploadedAsset)) {
+      safePath = uploadedAsset;
+    }
+  }
+
+  if (!safePath.startsWith(PUBLIC_DIR) && !safePath.startsWith(UPLOAD_DIR)) {
     res.writeHead(403);
     res.end('Forbidden');
     return;
