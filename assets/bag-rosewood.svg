@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="860" viewBox="0 0 800 860">
+<defs>
+<linearGradient id="body" x1="0" x2="1" y1="0.2" y2="0.8"><stop stop-color="#9C536A"/><stop offset=".21" stop-color="#BB7B8F"/><stop offset=".45" stop-color="#79384D"/><stop offset=".87" stop-color="#461C2D"/><stop offset="1" stop-color="#79384D"/></linearGradient>
+<linearGradient id="flap" x1=".15" x2=".78" y1="0" y2="1"><stop stop-color="#BB7B8F"/><stop offset=".2" stop-color="#9C536A"/><stop offset=".8" stop-color="#79384D"/><stop offset="1" stop-color="#461C2D"/></linearGradient>
+<linearGradient id="handle" x1="0" x2="1"><stop stop-color="#461C2D"/><stop offset=".46" stop-color="#9C536A"/><stop offset=".65" stop-color="#79384D"/><stop offset="1" stop-color="#461C2D"/></linearGradient>
+<linearGradient id="gold" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#88632C"/><stop offset=".26" stop-color="#FFE4A7"/><stop offset=".6" stop-color="#D9B481"/><stop offset="1" stop-color="#8B6537"/></linearGradient>
+<filter id="sh"><feGaussianBlur stdDeviation="15"/></filter>
+<filter id="drop"><feDropShadow dx="9" dy="23" stdDeviation="14" flood-color="#2d1d1b" flood-opacity=".26"/></filter>
+</defs>
+<ellipse cx="412" cy="773" rx="250" ry="32" fill="#2A1D1C" opacity=".27" filter="url(#sh)"/>
+<!-- adjustable curved handle -->
+<path d="M265 313 C245 204 267 133 327 106 C377 82 451 95 489 120 C539 154 550 209 538 318" fill="none" stroke="#461C2D" stroke-width="53" stroke-linecap="round"/>
+<path d="M265 313 C245 204 267 133 327 106 C377 82 451 95 489 120 C539 154 550 209 538 318" fill="none" stroke="url(#handle)" stroke-width="43" stroke-linecap="round"/>
+<path d="M271 283 C259 200 280 146 335 121 C393 98 461 115 494 144 C525 174 530 215 527 277" fill="none" stroke="#C68C9B" stroke-width="2" stroke-dasharray="4 7" opacity=".7"/>
+<!-- bag silhouette and leather side gussets -->
+<g filter="url(#drop)">
+<path d="M188 322 C195 278 232 256 285 251 L526 252 C583 254 628 275 643 324 L691 624 C706 695 677 737 604 746 L211 746 C141 739 113 701 127 633 Z" fill="#461C2D"/>
+<path d="M194 322 C202 285 237 268 291 264 L524 265 C574 266 614 284 628 331 L673 619 C684 679 665 717 597 726 L220 727 C164 719 145 683 156 630 Z" fill="url(#body)"/>
+<path d="M181 343 Q159 533 169 653 Q170 688 195 707" stroke="#BB7B8F" stroke-width="8" fill="none" opacity=".4"/>
+<path d="M630 350 Q649 500 657 625 Q669 688 627 708" stroke="#461C2D" stroke-width="10" fill="none" opacity=".35"/>
+<!-- top seam -->
+<path d="M193 321 Q416 390 635 326" stroke="#461C2D" stroke-width="12" fill="none"/>
+<!-- full flap -->
+<path d="M180 326 C195 277 249 263 295 266 L524 266 C578 267 621 293 637 333 L642 449 C573 501 493 543 414 553 C326 552 241 503 171 448 Z" fill="url(#flap)" stroke="#461C2D" stroke-width="7"/>
+<path d="M189 438 C255 489 340 530 413 534 C505 530 566 489 634 437" fill="none" stroke="#C68C9B" stroke-width="2.3" stroke-dasharray="3 9" opacity=".65"/>
+<path d="M194 336 C285 300 494 309 621 334" fill="none" stroke="#FFFFFF" stroke-width="8" opacity=".11" stroke-linecap="round"/>
+<!-- metal turn-lock hardware -->
+<rect x="388" y="518" width="50" height="59" rx="12" fill="#461C2D" opacity=".36"/>
+<rect x="386" y="514" width="55" height="58" rx="11" fill="url(#gold)" stroke="#9E753D" stroke-width="2"/>
+<rect x="396" y="527" width="35" height="31" rx="8" fill="#461C2D" opacity=".25"/>
+<rect x="400" y="533" width="28" height="18" rx="7" fill="url(#gold)"/>
+<path d="M411 529 V552" stroke="#FFF1C7" stroke-width="2" opacity=".6"/>
+<!-- subtle foil brand on lower panel -->
+<text x="411" y="677" text-anchor="middle" font-family="Georgia,serif" font-size="24" letter-spacing="8" fill="#D9B481" opacity=".9">A U R A</text>
+<!-- seams -->
+<path d="M191 508 L179 626 Q168 703 229 712 L580 711 Q649 706 640 633 L626 519" fill="none" stroke="#C68C9B" stroke-width="2.4" stroke-dasharray="3 8" opacity=".62"/>
+</g>
+</svg>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>লগইন - LUXOS অ্যাডমিন প্যানেল</title>
+  <link rel="icon" type="image/png" href="assets/admin-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #801e38;
+      --primary-hover: #982845;
+      --primary-glow: rgba(128, 30, 56, 0.4);
+      --bg-dark: #0f0c10;
+      --card-bg: #18141a;
+      --card-border: #2e2630;
+      --input-bg: #221b25;
+      --input-border: #3b303d;
+      --text-main: #f5f0f3;
+      --text-muted: #9e939a;
+      --danger: #ef4444;
+      --success: #16a34a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans Bengali', system-ui, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Ambient luxury background glow */
+    .bg-glow-1 {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(128, 30, 56, 0.25) 0%, rgba(128, 30, 56, 0) 70%);
+      top: -150px;
+      right: -100px;
+      pointer-events: none;
+      filter: blur(40px);
+    }
+
+    .bg-glow-2 {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(199, 137, 72, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+      bottom: -120px;
+      left: -80px;
+      pointer-events: none;
+      filter: blur(40px);
+    }
+
+    /* Login Container Card */
+    .login-container {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 40px 36px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(128, 30, 56, 0.12);
+      position: relative;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      animation: fadeInCard .5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeInCard {
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .logo-wrapper {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .logo-img {
+      height: 44px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 12px rgba(128, 30, 56, 0.35));
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .login-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+      margin-bottom: 8px;
+    }
+
+    .login-subtitle {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Error Alert */
+    .error-alert {
+      display: none;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      margin-bottom: 20px;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .error-alert.shake {
+      display: flex;
+      animation: shake .4s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ded7de;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      color: #7b6f79;
+      font-size: 16px;
+      pointer-events: none;
+      transition: color .2s;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 42px 0 42px;
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 14.5px;
+      outline: none;
+      transition: all .25s ease;
+      font-family: inherit;
+    }
+
+    .form-input::placeholder {
+      color: #6d616c;
+      font-size: 13.5px;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      background: #28202c;
+      box-shadow: 0 0 0 3.5px rgba(128, 30, 56, 0.25);
+    }
+
+    .form-input:focus + .input-icon,
+    .input-wrapper:focus-within .input-icon {
+      color: #e59aa8;
+    }
+
+    .toggle-pass-btn {
+      position: absolute;
+      right: 12px;
+      background: transparent;
+      border: 0;
+      color: #7b6f79;
+      cursor: pointer;
+      padding: 6px;
+      font-size: 16px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      transition: color .2s, background .2s;
+    }
+
+    .toggle-pass-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Submit Button */
+    .login-btn {
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary) 0%, #9e2a47 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 6px 20px var(--primary-glow);
+      transition: all .25s ease;
+      margin-top: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #912340 0%, #aa2f4d 100%);
+      box-shadow: 0 8px 24px rgba(128, 30, 56, 0.55);
+      transform: translateY(-1.5px);
+    }
+
+    .login-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* Hint Card */
+    .credentials-hint {
+      margin-top: 24px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed #3a303d;
+      border-radius: 10px;
+      font-size: 12.5px;
+      color: #baaeb7;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .credentials-hint strong {
+      color: #f7d5dc;
+    }
+
+    .code-badge {
+      display: inline-block;
+      background: #2b222d;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #ffffff;
+      font-size: 12px;
+      border: 1px solid #4a3a4c;
+    }
+
+    /* Back link */
+    .back-home {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #92878f;
+      text-decoration: none;
+      font-size: 13px;
+      transition: color .2s;
+    }
+
+    .back-home:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <div class="login-container">
+    <div class="logo-wrapper">
+      <img src="assets/admin-logo.png" alt="LUXOS" class="logo-img" />
+    </div>
+
+    <div class="login-header">
+      <h1 class="login-title">অ্যাডমিন প্যানেল লগইন</h1>
+      <p class="login-subtitle">ওয়েবসাইট ও কনটেন্ট ম্যানেজমেন্টে প্রবেশ করতে আপনার তথ্য দিন</p>
+    </div>
+
+    <div id="errorAlert" class="error-alert">
+      <span>⚠️</span>
+      <span id="errorMessage">ইউজারনেম বা পাসওয়ার্ড ভুল হয়েছে!</span>
+    </div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="username">ইউজারনেম</label>
+        <div class="input-wrapper">
+          <span class="input-icon">👤</span>
+          <input 
+            type="text" 
+            id="username" 
+            class="form-input" 
+            placeholder="ইউজারনেম লিখুন" 
+            required 
+            autocomplete="username"
+            autofocus
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">পাসওয়ার্ড</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input 
+            type="password" 
+            id="password" 
+            class="form-input" 
+            placeholder="পাসওয়ার্ড লিখুন" 
+            required 
+            autocomplete="current-password"
+          />
+          <button type="button" class="toggle-pass-btn" onclick="togglePasswordVisibility()" title="পাসওয়ার্ড দেখুন / লুকান">
+            <span id="passIcon">👁️</span>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" id="submitBtn" class="login-btn">
+        <span>লগইন করুন</span>
+        <span style="font-size: 16px;">→</span>
+      </button>
+    </form>
+
+    <div class="credentials-hint">
+      🔑 <strong>ডিফল্ট লগইন তথ্য:</strong><br/>
+      ইউজারনেম: <span class="code-badge">admin</span> &nbsp;|&nbsp; 
+      পাসওয়ার্ড: <span class="code-badge">admin123</span>
+    </div>
+
+    <a href="/" class="back-home">← লাইভ ওয়েবসাইট দেখুন</a>
+  </div>
+
+  <script>
+    function togglePasswordVisibility() {
+      const passInput = document.getElementById('password');
+      const passIcon = document.getElementById('passIcon');
+      if (passInput.type === 'password') {
+        passInput.type = 'text';
+        passIcon.textContent = '🙈';
+      } else {
+        passInput.type = 'password';
+        passIcon.textContent = '👁️';
+      }
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const errorAlert = document.getElementById('errorAlert');
+      const errorMsg = document.getElementById('errorMessage');
+      const submitBtn = document.getElementById('submitBtn');
+
+      errorAlert.classList.remove('shake');
+      errorAlert.style.display = 'none';
+
+      if (!username || !password) {
+        errorMsg.textContent = 'ইউজারনেম এবং পাসওয়ার্ড প্রদান করুন!';
+        errorAlert.style.display = 'flex';
+        errorAlert.classList.add('shake');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      const origHtml = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<div class="spinner"></div> <span>যাচাই করা হচ্ছে...</span>';
+
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+          submitBtn.style.background = 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)';
+          submitBtn.innerHTML = '<span>✓ লগইন সফল! প্রবেশ করা হচ্ছে...</span>';
+          setTimeout(() => {
+            window.location.href = '/admin';
+          }, 400);
+        } else {
+          errorMsg.textContent = result.error || 'ভুল ইউজারনেম বা পাসওয়ার্ড!';
+          errorAlert.style.display = 'flex';
+          errorAlert.classList.add('shake');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origHtml;
+          document.getElementById('password').focus();
+        }
+      } catch (err) {
+        console.error(err);
+        errorMsg.textContent = 'সার্ভারের সাথে সংযোগ স্থাপন করা যায়নি!';
+        errorAlert.style.display = 'flex';
+        errorAlert.classList.add('shake');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = origHtml;
+      }
+    }
+  </script>
+</body>
+</html>

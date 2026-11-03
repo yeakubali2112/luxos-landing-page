@@ -1,0 +1,200 @@
+{
+  "general": {
+    "storeName": "LUXOS",
+    "announcement": "Luxos সত্যিকারের লাক্সারি প্রোডাক্টের প্রতিশ্রুতিবদ্ধ।",
+    "whatsappNumber": "01773542057",
+    "currency": "৳"
+  },
+  "pricing": {
+    "productName": "The Aster by LUXOS",
+    "offerPrice": 2350,
+    "regularPrice": 2950,
+    "deliveryInsideDhaka": 70,
+    "deliveryOutsideDhaka": 130
+  },
+  "hero": {
+    "title": "প্রোডাক্টের বিবরণী",
+    "desc": "আভিজাত্য ও আধুনিক স্টাইলের নিখুঁত মেলবন্ধন—প্রতিদিনের ব্যবহার কিংবা স্পেশাল মুহূর্তের জন্য সেরা লাক্সারি ব্যাগ।",
+    "specs": [
+      {
+        "label": "YEAKUB ALI",
+        "text": "প্রিমিয়াম হাই-কোয়ালিটি লেদার ফিনিশ"
+      },
+      {
+        "label": "ডিজাইন:",
+        "text": "আকর্ষণীয় ও এলিগেন্ট লাক্সারিয়াস লুক"
+      },
+      {
+        "label": "হার্ডওয়্যার:",
+        "text": "টেকসই গোল্ডেন মেটাল লক ও প্রিমিয়াম জিপার"
+      },
+      {
+        "label": "কম্পার্টমেন্ট:",
+        "text": "মোবাইল, ওয়ালেট ও নিত্যপ্রয়োজনীয় জিনিস রাখার পর্যাপ্ত জায়গা"
+      },
+      {
+        "label": "স্ট্র্যাপ:",
+        "text": "মজবুত হ্যান্ডেল এবং সুবিধাজনক অ্যাডজাস্টেবল শোল্ডার বেল্ট"
+      },
+      {
+        "label": "AAAA",
+        "text": "DDDD"
+      }
+    ],
+    "mediaType": "video",
+    "mediaSrc": "https://www.youtube.com/watch?v=6rvUyBiBtik&list=RD6rvUyBiBtik&start_radio=1",
+    "mediaPoster": "assets/video-poster.jpg",
+    "colors": []
+  },
+  "trustBadges": [
+    {
+      "title": "দ্রুততম হোম ডেলিভারি",
+      "sub": "সারাদেশে ক্যাশ অন ডেলিভারি"
+    },
+    {
+      "title": "১০০% প্রিমিয়াম ফিনিশ",
+      "sub": "প্রকৃত লেদারের নিখুঁত কারুকাজ"
+    },
+    {
+      "title": "দেখে মূল্য পরিশোধ",
+      "sub": "পণ্য হাতে পেয়ে চেক করার সুবিধা"
+    },
+    {
+      "title": "সহজ এক্সচেঞ্জ পলিসি",
+      "sub": "যেকোনো সমস্যায় ৩ দিনের মধ্যে সাপোর্ট"
+    }
+  ],
+  "whyLuxos": {
+    "banner": "Luxos ব্র্যান্ড কেন",
+    "image": "assets/486099850_674555051762113_3357534810597169259_n.jpg",
+    "items": [
+      {
+        "bold": "১০০% অরিজিনাল প্রিমিয়াম কোয়ালিটি:",
+        "desc": "আন্তর্জাতিক মানের ফিনিশিং ও দীর্ঘস্থায়িত্ব।"
+      },
+      {
+        "bold": "পানি ও স্ক্র্যাচ প্রতিরোধী লেদার:",
+        "desc": "দৈনন্দিন ব্যবহারে দাগ বা ক্ষতি হওয়ার ভয় নেই।"
+      },
+      {
+        "bold": "স্মার্ট ও এলিগেন্ট ডিজাইন:",
+        "desc": "অফিস, ট্রাভেল কিংবা পার্টি—সব জায়গায় মানানসই।"
+      },
+      {
+        "bold": "অরিজিনাল মেটালিক হার্ডওয়্যার:",
+        "desc": "মরচে পড়ে না এবং সহজে রঙ নষ্ট হয় না।"
+      }
+    ]
+  },
+  "journey": {
+    "eyebrow": "STYLE THAT TRAVELS",
+    "title": "Every day.<br/>Every journey.",
+    "featuredCard": {
+      "title": "Modern Freedom",
+      "img": "assets/journey-look-modern-freedom.png"
+    },
+    "subCard1": {
+      "title": "Everyday Elegance",
+      "img": "assets/journey-look-elegance.png"
+    },
+    "subCard2": {
+      "title": "Business Essential",
+      "img": "assets/journey-look-business.png"
+    }
+  },
+  "reviews": [
+    {
+      "name": "Salman Habib",
+      "source": "Facebook comment",
+      "avatar": "SH",
+      "quote": "চমৎকার প্রিমিয়াম কোয়ালিটি! চামড়ার ফিনিশিং এবং সেলাই সত্যিই অসাধারণ।"
+    },
+    {
+      "name": "MD Iftekhar Alam",
+      "source": "Facebook comment",
+      "avatar": "IA",
+      "quote": "অর্ডার করার ২ দিনের মধ্যেই পেয়েছি। যেমন দেখেছি ছবিতে ঠিক তেমনই পেয়েছি।"
+    },
+    {
+      "name": "MD Monjil Hossain",
+      "source": "Facebook comment",
+      "avatar": "MH",
+      "quote": "অফিসের কাজের জন্য পারফেক্ট সাইজ। অনেকগুলো জিনিস সুন্দরভাবে রাখা যায়।"
+    },
+    {
+      "name": "Tanvir Ahmed",
+      "source": "Facebook comment",
+      "avatar": "TA",
+      "quote": "কোয়ালিটি অনুযায়ী দাম খুবই রিজনেবল। বন্ধুদেরও সাজেস্ট করেছি।"
+    },
+    {
+      "name": "Rashedul Karim",
+      "source": "Facebook comment",
+      "avatar": "RK",
+      "quote": "মেটাল লক আর চেইনের কোয়ালিটি বেশ স্মুথ এবং প্রিমিয়াম ফিল দেয়।"
+    },
+    {
+      "name": "Nafis Rahman",
+      "source": "Facebook review",
+      "avatar": "NR",
+      "quote": "হাতে পেয়ে সত্যিই মুগ্ধ! ছবিতে যেমন সুন্দর বাস্তবে তার চেয়েও প্রিমিয়াম।"
+    }
+  ],
+  "showcaseSection": {
+    "title": "আমাদের পণ্যসমূহ",
+    "images": [
+      "assets/bag-rosewood.svg",
+      "assets/why-luxos-clean.png",
+      "assets/bag-cocoa.svg",
+      "assets/bag-ivory.svg"
+    ]
+  },
+  "curatedCategories": {
+    "eyebrow": "CURATED CATEGORIES",
+    "title": "Shop by Collection",
+    "items": [
+      {
+        "name": "TOTE BAGS",
+        "img": "assets/cat-tote-bags.png"
+      },
+      {
+        "name": "SHOULDER BAGS",
+        "img": "assets/cat-shoulder-bags.png"
+      },
+      {
+        "name": "CROSSBODY",
+        "img": "assets/cat-crossbody.png"
+      },
+      {
+        "name": "WALLETS & RFID",
+        "img": "assets/cat-wallets-rfid.png"
+      },
+      {
+        "name": "BACKPACKS",
+        "img": "assets/cat-backpacks.png"
+      },
+      {
+        "name": "DUFFLE BAGS",
+        "img": "assets/cat-duffle-bags.png"
+      },
+      {
+        "name": "PRIME SHOES",
+        "img": "assets/cat-prime-shoes.png"
+      },
+      {
+        "name": "CLEARANCE SALE",
+        "img": "assets/cat-clearance-sale.png"
+      }
+    ]
+  },
+  "footer": {
+    "logo": "assets/logo.png",
+    "about": "Luxos is Bangladesh's premier destination for luxury bags, smart pop-up wallets, and modern commuter footwear. Designed for effortless grace and unmatched longevity.",
+    "address": "7/2 Tajmahal Road, Block-C, Mohammadpur, Dhaka (Opposite side of Boshra Dental), Dhaka, Bangladesh",
+    "hotline": "+8801701-800216 (10 AM - 10 PM)",
+    "email": "luxosbd@gmail.com",
+    "clubTitle": "JOIN THE LUXOS CLUB",
+    "clubText": "Subscribe to receive private sale invitations and an instant 10% discount coupon.",
+    "copyright": "© 2026 Luxos Bangladesh. All rights reserved. Handcrafted with passion."
+  }
+}

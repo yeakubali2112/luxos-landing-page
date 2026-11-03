@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/content", "destination": "/data/content.json" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/admin", "destination": "/admin.html" }
+  ]
+}

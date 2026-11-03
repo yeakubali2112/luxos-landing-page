@@ -1,0 +1,28 @@
+[
+  {
+    "id": "LX-261102-001",
+    "createdAt": "2026-11-02T19:20:03.540Z",
+    "customer": {
+      "name": "রাকিবুল হাসান",
+      "phone": "01712345678",
+      "address": "বাড়ি ১২, রোড ৪, সেক্টর ৭, উত্তরা, ঢাকা",
+      "area": "inside",
+      "areaName": "ঢাকা সিটি"
+    },
+    "product": {
+      "name": "The Aster by LUXOS",
+      "color": "Rosewood",
+      "colorKey": "rosewood",
+      "quantity": 1,
+      "unitPrice": 2350
+    },
+    "pricing": {
+      "subtotal": 2350,
+      "delivery": 70,
+      "total": 2420
+    },
+    "status": "delivered",
+    "notes": "",
+    "updatedAt": "2026-11-02T19:23:25.860Z"
+  }
+]
