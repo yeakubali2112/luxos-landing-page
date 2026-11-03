@@ -1,6 +1,11 @@
 {
   "version": 2,
   "cleanUrls": true,
+  "functions": {
+    "server.js": {
+      "includeFiles": "{login.html,admin.html,index.html,data/**}"
+    }
+  },
   "rewrites": [
     { "source": "/api/content", "destination": "/data/content.json" },
     { "source": "/login", "destination": "/login.html" },

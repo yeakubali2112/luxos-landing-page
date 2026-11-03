@@ -9,6 +9,9 @@ const DATA_FILE = path.join(PUBLIC_DIR, 'data', 'content.json');
 const AUTH_FILE = path.join(PUBLIC_DIR, 'data', 'auth.json');
 const SESSIONS_FILE = path.join(PUBLIC_DIR, 'data', 'sessions.json');
 const ORDERS_FILE = path.join(PUBLIC_DIR, 'data', 'orders.json');
+const LOGIN_FILE = path.join(PUBLIC_DIR, 'login.html');
+const ADMIN_FILE = path.join(PUBLIC_DIR, 'admin.html');
+const INDEX_FILE = path.join(PUBLIC_DIR, 'index.html');
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
