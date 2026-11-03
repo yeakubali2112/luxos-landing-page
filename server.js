@@ -384,28 +384,6 @@ const server = http.createServer(async (req, res) => {
       return res.end(JSON.stringify({ error: e.message }));
     }
   }
-    }
-    try {
-      const payload = await readJsonBody(req);
-      const { filename, data } = payload;
-      if (!filename || !data) {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        return res.end(JSON.stringify({ error: 'filename and data are required' }));
-      }
-      // sanitize filename
-      const cleanName = path.basename(filename).replace(/[^a-zA-Z0-9._-]/g, '_');
-      const base64Data = data.replace(/^data:([A-Za-z-+/]+);base64,/, '');
-      const buffer = Buffer.from(base64Data, 'base64');
-      const targetPath = path.join(PUBLIC_DIR, 'assets', cleanName);
-      fs.writeFileSync(targetPath, buffer);
-
-      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-      return res.end(JSON.stringify({ ok: true, path: `assets/${cleanName}` }));
-    } catch (e) {
-      res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
-      return res.end(JSON.stringify({ error: e.message }));
-    }
-  }
 
   // API ROUTE: POST /api/orders (Public - Place an order)
   if (req.method === 'POST' && pathname === '/api/orders') {
