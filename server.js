@@ -117,10 +117,60 @@ function parseCookies(req) {
   return list;
 }
 
+function getSessionSecret() {
+  try {
+    const auth = loadAuth();
+    return crypto.createHash('sha256').update((auth.password || 'admin123') + '_luxos_session_secret_key_2026').digest('hex');
+  } catch (e) {
+    return 'luxos_fallback_session_secret_key_2026';
+  }
+}
+
+function createSessionToken(username) {
+  const payload = {
+    user: username || 'admin',
+    created: Date.now(),
+    exp: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
+  };
+  const payloadStr = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const sig = crypto.createHmac('sha256', getSessionSecret()).update(payloadStr).digest('base64url');
+  return payloadStr + '.' + sig;
+}
+
+function verifySessionToken(token) {
+  if (!token || typeof token !== 'string') return false;
+  const parts = token.split('.');
+  if (parts.length !== 2) return false;
+  const [payloadStr, sig] = parts;
+  try {
+    const expectedSig = crypto.createHmac('sha256', getSessionSecret()).update(payloadStr).digest('base64url');
+    if (sig.length !== expectedSig.length) return false;
+    if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expectedSig))) return false;
+    const payload = JSON.parse(Buffer.from(payloadStr, 'base64url').toString('utf-8'));
+    if (!payload || !payload.exp || payload.exp < Date.now()) return false;
+    return payload;
+  } catch (e) {
+    return false;
+  }
+}
+
 function isAuthenticated(req) {
   const cookies = parseCookies(req);
   const token = cookies['luxos_admin_session'];
-  return Boolean(token && activeSessions.has(token));
+  if (!token) return false;
+
+  // 1. Verify stateless cryptographically signed session token (works across all Vercel lambdas & cold starts)
+  const session = verifySessionToken(token);
+  if (session && session.user) {
+    return true;
+  }
+
+  // 2. Fallback check for in-memory activeSessions
+  if (activeSessions.has(token)) {
+    return true;
+  }
+
+  return false;
 }
 
 function readJsonBody(req) {
@@ -153,12 +203,14 @@ const server = http.createServer(async (req, res) => {
       const { username, password } = await readJsonBody(req);
       const auth = loadAuth();
       if (username === auth.username && password === auth.password) {
-        const token = crypto.randomBytes(32).toString('hex');
+        const token = createSessionToken(auth.username);
         activeSessions.add(token);
         saveSessions(activeSessions);
+        const isSecure = IS_VERCEL || (req.headers['x-forwarded-proto'] === 'https');
+        const secureFlag = isSecure ? '; Secure' : '';
         res.writeHead(200, {
           'Content-Type': 'application/json; charset=utf-8',
-          'Set-Cookie': `luxos_admin_session=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800`
+          'Set-Cookie': `luxos_admin_session=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800${secureFlag}`
         });
         return res.end(JSON.stringify({ ok: true, message: 'লগইন সফল হয়েছে!' }));
       } else {
@@ -179,16 +231,18 @@ const server = http.createServer(async (req, res) => {
       activeSessions.delete(token);
       saveSessions(activeSessions);
     }
+    const isSecure = IS_VERCEL || (req.headers['x-forwarded-proto'] === 'https');
+    const secureFlag = isSecure ? '; Secure' : '';
     if (req.method === 'POST') {
       res.writeHead(200, {
         'Content-Type': 'application/json; charset=utf-8',
-        'Set-Cookie': 'luxos_admin_session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0'
+        'Set-Cookie': `luxos_admin_session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0${secureFlag}`
       });
       return res.end(JSON.stringify({ ok: true }));
     } else {
       res.writeHead(302, {
         'Location': '/login',
-        'Set-Cookie': 'luxos_admin_session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0'
+        'Set-Cookie': `luxos_admin_session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0${secureFlag}`
       });
       return res.end();
     }
@@ -218,7 +272,15 @@ const server = http.createServer(async (req, res) => {
         auth.password = newPassword.trim();
       }
       fs.writeFileSync(AUTH_FILE, JSON.stringify(auth, null, 2), 'utf-8');
-      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      const newToken = createSessionToken(auth.username);
+      activeSessions.add(newToken);
+      saveSessions(activeSessions);
+      const isSecure = IS_VERCEL || (req.headers['x-forwarded-proto'] === 'https');
+      const secureFlag = isSecure ? '; Secure' : '';
+      res.writeHead(200, {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Set-Cookie': `luxos_admin_session=${newToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800${secureFlag}`
+      });
       return res.end(JSON.stringify({ ok: true, message: 'লগইন তথ্য সফলভাবে পরিবর্তিত হয়েছে!' }));
     } catch (e) {
       res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
