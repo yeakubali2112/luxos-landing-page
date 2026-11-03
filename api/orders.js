@@ -8,6 +8,15 @@ function loadOrders() {
     if (fs.existsSync(ORDERS_FILE)) {
       return JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf-8'));
     }
+    const bundled = path.join(__dirname, '..', 'data', 'orders.json');
+    if (fs.existsSync(bundled)) {
+      const orders = JSON.parse(fs.readFileSync(bundled, 'utf-8'));
+      try {
+        if (!fs.existsSync(path.dirname(ORDERS_FILE))) fs.mkdirSync(path.dirname(ORDERS_FILE), { recursive: true });
+        fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
+      } catch (e) {}
+      return orders;
+    }
   } catch (e) {}
   return [];
 }
@@ -34,6 +43,25 @@ module.exports = async (req, res) => {
     try {
       const payload = typeof req.body === 'string' ? JSON.parse(req.body) : req.body || {};
       const orders = loadOrders();
+
+      // Check if this is a status update
+      if (payload.action === 'status' || (payload.id && payload.status && !payload.fullName)) {
+        const target = orders.find(o => o.id === payload.id);
+        if (target) {
+          target.status = payload.status;
+          target.updatedAt = new Date().toISOString();
+          saveOrders(orders);
+          return res.status(200).json({ ok: true, order: target });
+        }
+        return res.status(404).json({ ok: false, error: 'Order not found' });
+      }
+
+      // Check if this is a delete request
+      if (payload.action === 'delete' || (payload.id && !payload.fullName && !payload.status)) {
+        const filtered = orders.filter(o => o.id !== payload.id);
+        saveOrders(filtered);
+        return res.status(200).json({ ok: true, id: payload.id });
+      }
 
       const fullName = (payload.fullName || payload.name || '').trim();
       const phone = (payload.phone || '').trim();

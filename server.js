@@ -5,10 +5,11 @@ const crypto = require('crypto');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = __dirname;
+const IS_VERCEL = !!process.env.VERCEL;
 const DATA_FILE = path.join(PUBLIC_DIR, 'data', 'content.json');
-const AUTH_FILE = path.join(PUBLIC_DIR, 'data', 'auth.json');
-const SESSIONS_FILE = path.join(PUBLIC_DIR, 'data', 'sessions.json');
-const ORDERS_FILE = path.join(PUBLIC_DIR, 'data', 'orders.json');
+const AUTH_FILE = IS_VERCEL ? path.join('/tmp', 'auth.json') : path.join(PUBLIC_DIR, 'data', 'auth.json');
+const SESSIONS_FILE = IS_VERCEL ? path.join('/tmp', 'sessions.json') : path.join(PUBLIC_DIR, 'data', 'sessions.json');
+const ORDERS_FILE = IS_VERCEL ? path.join('/tmp', 'orders.json') : path.join(PUBLIC_DIR, 'data', 'orders.json');
 const LOGIN_FILE = path.join(PUBLIC_DIR, 'login.html');
 const ADMIN_FILE = path.join(PUBLIC_DIR, 'admin.html');
 const INDEX_FILE = path.join(PUBLIC_DIR, 'index.html');
@@ -30,6 +31,17 @@ function loadAuth() {
   try {
     if (fs.existsSync(AUTH_FILE)) {
       return JSON.parse(fs.readFileSync(AUTH_FILE, 'utf-8'));
+    }
+    const bundledAuth = path.join(PUBLIC_DIR, 'data', 'auth.json');
+    if (fs.existsSync(bundledAuth)) {
+      const auth = JSON.parse(fs.readFileSync(bundledAuth, 'utf-8'));
+      if (IS_VERCEL) {
+        try {
+          if (!fs.existsSync(path.dirname(AUTH_FILE))) fs.mkdirSync(path.dirname(AUTH_FILE), { recursive: true });
+          fs.writeFileSync(AUTH_FILE, JSON.stringify(auth, null, 2), 'utf-8');
+        } catch(e) {}
+      }
+      return auth;
     }
   } catch (e) {}
   const def = { username: 'admin', password: 'admin123' };
@@ -61,6 +73,18 @@ function loadOrders() {
     if (fs.existsSync(ORDERS_FILE)) {
       return JSON.parse(fs.readFileSync(ORDERS_FILE, 'utf-8'));
     }
+    // Fallback: seed from initial bundled orders.json
+    const bundledOrders = path.join(PUBLIC_DIR, 'data', 'orders.json');
+    if (fs.existsSync(bundledOrders)) {
+      const orders = JSON.parse(fs.readFileSync(bundledOrders, 'utf-8'));
+      if (IS_VERCEL) {
+        try {
+          if (!fs.existsSync(path.dirname(ORDERS_FILE))) fs.mkdirSync(path.dirname(ORDERS_FILE), { recursive: true });
+          fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
+        } catch(e) {}
+      }
+      return orders;
+    }
   } catch (e) {}
   return [];
 }
@@ -71,6 +95,7 @@ function saveOrders(orders) {
     fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
     return true;
   } catch (e) {
+    console.error('Error saving orders:', e);
     return false;
   }
 }
