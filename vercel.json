@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "functions": {
     "server.js": {
-      "includeFiles": "{login.html,admin.html,index.html,data/**}"
+      "includeFiles": "{login.html,admin.html,index.html,data/**,assets/**,favicon.*}"
     }
   },
   "rewrites": [
