@@ -175,6 +175,16 @@ function isAuthenticated(req) {
 
 function readJsonBody(req) {
   return new Promise((resolve, reject) => {
+    if (req.body !== undefined && req.body !== null) {
+      if (typeof req.body === 'string') {
+        try {
+          return resolve(req.body ? JSON.parse(req.body) : {});
+        } catch (e) {
+          return resolve({});
+        }
+      }
+      return resolve(req.body);
+    }
     let body = '';
     req.on('data', chunk => {
       body += chunk;
@@ -193,7 +203,7 @@ function readJsonBody(req) {
   });
 }
 
-const server = http.createServer(async (req, res) => {
+async function requestHandler(req, res) {
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = decodeURI(parsedUrl.pathname);
 
@@ -650,10 +660,16 @@ const server = http.createServer(async (req, res) => {
       fs.createReadStream(safePath).pipe(res);
     }
   });
-});
+}
 
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
-  console.log(`Admin Login available at http://localhost:${PORT}/login`);
-  console.log(`Admin Panel available at http://localhost:${PORT}/admin`);
-});
+const server = http.createServer(requestHandler);
+
+if (require.main === module) {
+  server.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}/`);
+    console.log(`Admin Login available at http://localhost:${PORT}/login`);
+    console.log(`Admin Panel available at http://localhost:${PORT}/admin`);
+  });
+}
+
+module.exports = requestHandler;
