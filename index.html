@@ -42,19 +42,17 @@
     .reviews-carousel-outer{position:relative;width:100%;margin:0 auto;padding:0;box-sizing:border-box}
     .reviews-viewport{overflow:hidden;position:relative;width:100%;padding:14px 4px 18px}
     .reviews-track{display:flex;gap:18px;transition:transform .42s cubic-bezier(0.25,1,0.5,1);will-change:transform}
-    .review-card{flex:0 0 calc((100% - 4 * 18px) / 5);min-width:0;box-sizing:border-box;background:#ffffff;border:1px solid #ebdcd3;border-radius:16px;padding:26px 20px 22px;box-shadow:0 4px 18px rgba(45,25,20,.04);display:flex;flex-direction:column;transition:transform .22s cubic-bezier(0.16,1,0.3,1),box-shadow .22s ease,border-color .22s ease}
-    .review-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(45,25,20,.08);border-color:#d6beae}
-    .review-quote-icon{font-family:Georgia,"Times New Roman",serif;font-size:44px;line-height:.8;color:#b5825d;margin-bottom:14px;user-select:none}
-    .review-quote-text{font-size:15px;font-weight:750;color:#181210;line-height:1.45;margin:0 0 16px 0;min-height:56px;flex:1}
-    .review-media-wrap{width:100%;height:130px;border-radius:10px;overflow:hidden;margin-bottom:14px;background:#f7f1ec;border:1px solid #ebdcd3}
-    .review-media-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s ease}
-    .review-card:hover .review-media-img{transform:scale(1.04)}
-    .review-author{display:flex;align-items:center;gap:12px;margin-top:auto}
-    .review-avatar{width:40px;height:40px;border-radius:50%;background:#ebe3de;color:#2d2320;display:grid;place-items:center;font-weight:750;font-size:13px;letter-spacing:-.3px;flex-shrink:0;overflow:hidden}
-    .review-avatar-img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
-    .review-author-meta{display:flex;flex-direction:column;gap:2px}
-    .review-name{font-size:13.5px;font-weight:750;color:#1a1210;line-height:1.25}
-    .review-source{font-size:11px;color:#8c7e77;font-weight:500}
+    .review-card{flex:0 0 calc((100% - 4 * 18px) / 5);min-width:0;box-sizing:border-box;background:#ffffff;border:1px solid #ebdcd3;border-radius:14px;padding:0;overflow:hidden;box-shadow:0 4px 18px rgba(45,25,20,.05);display:flex;align-items:center;justify-content:center;transition:transform .22s cubic-bezier(0.16,1,0.3,1),box-shadow .22s ease,border-color .22s ease;cursor:pointer;height:360px;position:relative}
+    .review-card:hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(45,25,20,.12);border-color:#c9a58d}
+    .review-screenshot-img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .3s ease}
+    .review-card:hover .review-screenshot-img{transform:scale(1.03)}
+    .review-zoom-hint{position:absolute;bottom:12px;right:12px;background:rgba(26,18,16,0.72);backdrop-filter:blur(4px);color:#ffffff;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:13px;opacity:0;transition:opacity .2s ease,transform .2s ease;pointer-events:none}
+    .review-card:hover .review-zoom-hint{opacity:1;transform:scale(1.06)}
+    .review-lightbox-backdrop{position:fixed;inset:0;background:rgba(18,12,10,0.86);backdrop-filter:blur(6px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px}
+    .review-lightbox-content{position:relative;max-width:92vw;max-height:92vh;display:flex;align-items:center;justify-content:center}
+    .review-lightbox-img{max-width:100%;max-height:88vh;border-radius:12px;box-shadow:0 18px 48px rgba(0,0,0,0.5);object-fit:contain;background:#ffffff}
+    .review-lightbox-close{position:absolute;top:-16px;right:-16px;width:36px;height:36px;border-radius:50%;background:#ffffff;color:#1a1210;border:1px solid #ebdcd3;display:grid;place-items:center;font-size:16px;font-weight:bold;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,0.3);transition:transform .18s ease}
+    .review-lightbox-close:hover{transform:scale(1.1)}
     .reviews-nav{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:36px}
     .reviews-nav-btn{width:44px;height:44px;border-radius:50%;border:1px solid #dcd1c7;background:#ffffff;color:#382c28;display:grid;place-items:center;cursor:pointer;transition:all .2s ease}
     .reviews-nav-btn:hover{background:#f7efe9;border-color:#a87e5b;color:#1a1210;transform:scale(1.05)}
@@ -137,8 +135,8 @@
     .popup-regular-price{color:#90807c;font-size:11px;text-decoration:line-through}
     @media(max-width:1360px){.review-card{flex:0 0 calc((100% - 3 * 18px) / 4)}}
     @media(max-width:1100px){.container{width:min(100% - 48px,1290px)}.nav-tagline{font-size:clamp(19px,2.4vw,28px)}.hero-prod-title{font-size:clamp(28px,3vw,38px)}.hero-copy{padding-right:0}.hero-grid{grid-template-columns:minmax(340px,420px) 1fr;gap:24px;min-height:auto}.hero-stage{justify-content:flex-start}.hero-media-box{max-width:100%}.why-luxos-card{gap:32px;padding:0}.why-luxos-media{min-height:430px}.journey-grid{grid-template-columns:minmax(320px,400px) 1.25fr;gap:28px}.review-card{flex:0 0 calc((100% - 2 * 18px) / 3)}}
-    @media(max-width:760px){.container{width:calc(100% - 32px)}.nav{height:auto;min-height:64px;padding:14px 0;flex-direction:column;align-items:center;justify-content:center;gap:10px}.brand-logo{height:32px}.nav-tagline{position:static;transform:none;color:#000;font-size:clamp(16px,4.5vw,22px);font-weight:900;text-align:center;white-space:normal;margin-left:0;line-height:1.35}.hero-grid{grid-template-columns:1fr;min-height:0;gap:20px}.hero-copy{padding:32px 0 16px}.hero-prod-title{font-size:clamp(26px,7vw,34px);margin:10px 0 8px}.hero-prod-desc{font-size:16px;margin-bottom:14px;line-height:1.7}.hero-specs-list li{font-size:15px;gap:10px}.hero-pricing-box{gap:10px;margin-bottom:18px}.price-regular{font-size:14.5px}.price-offer-highlight{padding:7px 14px;gap:8px}.price-offer-highlight .offer-tag{font-size:13px}.price-offer-highlight .offer-price{font-size:22px}.hero-meta{margin-top:20px;gap:14px;flex-wrap:wrap}.hero-stage{padding:0 0 28px;min-height:0;justify-content:center}.hero-media-box{width:100%;max-width:100%;justify-content:center}.hero-video-wrap{border-radius:12px;box-shadow:0 12px 30px rgba(45,22,32,.18)}.hero-media-img{max-height:360px}.trust-items{grid-template-columns:1fr;padding:8px 0}.trust-item{border:0;border-bottom:1px solid var(--line);padding:14px 4px}.trust-item:last-child{border:0}.feature-icon{width:42px;height:42px}.story{padding:50px 0;background:transparent}.why-luxos-card{grid-template-columns:1fr;gap:24px;padding:0;border:none;box-shadow:none;background:transparent}.why-luxos-content{padding:0}.why-luxos-media{min-height:280px;max-height:400px}.why-luxos-banner{margin-bottom:18px;padding:11px 18px;max-width:100%}.why-luxos-banner span{font-size:21px}.why-luxos-item{font-size:13.5px;gap:10px;line-height:1.5}.why-check{width:20px;height:20px;font-size:12.5px}.section-heading h2{font-size:clamp(39px,10vw,48px)}.video-order{padding:55px 0 65px;background:#f1eae5}.journey-grid{grid-template-columns:1fr;gap:28px}.journey-featured-card{max-height:480px}.journey-right-col{gap:26px}.journey-heading{font-size:36px;margin-bottom:16px}.journey-subgrid{gap:14px}.customer-reviews{padding:60px 0 65px}.review-card{flex:0 0 88%}.faq{padding:34px 0 38px;height:auto;min-height:0}.showcase-header{padding:0 16px 18px}.showcase-title{font-size:clamp(23px,6.8vw,29px)}.showcase-marquee-wrap{padding:8px 0 12px;-webkit-mask-image:linear-gradient(to right,transparent 0%,black 4%,black 96%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,black 4%,black 96%,transparent 100%)}.showcase-marquee-track{gap:26px;animation-duration:22s}.showcase-card{padding:4px 6px}.showcase-card:hover{transform:none}.showcase-img{height:165px;max-width:175px;filter:drop-shadow(0 10px 18px rgba(45,20,28,0.15))}.showcase-img-card{height:155px;width:155px;border-radius:12px}.last-cta{padding:55px 14px 65px}.categories-title{font-size:clamp(26px,7vw,32px);margin-bottom:28px}.categories-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px 8px;justify-items:center}.category-item{width:100%;max-width:82px}.category-circle-wrap{width:70px;height:70px;border-width:2px;border-color:#ffffff;box-shadow:0 0 0 2px rgba(255,255,255,0.22),0 6px 16px rgba(0,0,0,0.4);margin-bottom:8px}.category-label{font-size:9px;letter-spacing:.6px}footer{padding:50px 0 30px}.footer-grid{grid-template-columns:1fr 1fr;gap:36px}.footer-col-brand{grid-column:span 2}.footer-col-club{grid-column:span 2}.footer-bottom-inner{flex-direction:column;align-items:flex-start;gap:16px}.footer-payments{width:100%;justify-content:flex-start}.sticky-mobile{display:flex;position:fixed;z-index:55;bottom:0;left:0;right:0;background:#fffdf9;padding:11px 15px max(11px,env(safe-area-inset-bottom));border-top:1px solid #e4d8d2;box-shadow:0 -8px 26px #251c191f;align-items:center;justify-content:space-between;gap:13px}.sticky-price{display:flex;flex-direction:column;font-size:18px;color:var(--wine);font-weight:900}.sticky-price small{font-size:9px;color:#9b8f88;font-weight:650}.sticky-mobile a{background:var(--wine);color:white;padding:13px 20px;font-size:12px;font-weight:800;border-radius:3px}body{padding-bottom:70px}}
-    @media(max-width:440px){.container{width:calc(100% - 24px)}.nav-tagline{font-size:15px}.hero-prod-title{font-size:clamp(23px,7.5vw,27px)}.hero-actions{flex-direction:column;align-items:stretch;gap:10px;width:100%}.hero-order-btn{font-size:15px;min-height:54px;padding:14px 18px}.btn-primary{width:100%;justify-content:center;min-height:50px}.link-watch{justify-content:center}.hero-video-wrap{border-radius:10px}.hero-media-img{height:300px}.form-line{gap:7px}.journey-heading{font-size:30px}.journey-card-title{font-size:14px}.review-card{flex:0 0 94%}.faq{padding:26px 0 30px}.showcase-header{padding:0 14px 14px}.showcase-title{font-size:24px}.showcase-marquee-track{gap:20px;animation-duration:18s}.showcase-img{height:145px;max-width:155px;filter:drop-shadow(0 8px 14px rgba(45,20,28,0.14))}.showcase-img-card{height:138px;width:138px;border-radius:10px}.footer-grid{grid-template-columns:1fr;gap:28px}.footer-col-brand,.footer-col-club{grid-column:span 1}}
+    @media(max-width:760px){.container{width:calc(100% - 32px)}.nav{height:auto;min-height:64px;padding:14px 0;flex-direction:column;align-items:center;justify-content:center;gap:10px}.brand-logo{height:32px}.nav-tagline{position:static;transform:none;color:#000;font-size:clamp(16px,4.5vw,22px);font-weight:900;text-align:center;white-space:normal;margin-left:0;line-height:1.35}.hero-grid{grid-template-columns:1fr;min-height:0;gap:20px}.hero-copy{padding:32px 0 16px}.hero-prod-title{font-size:clamp(26px,7vw,34px);margin:10px 0 8px}.hero-prod-desc{font-size:16px;margin-bottom:14px;line-height:1.7}.hero-specs-list li{font-size:15px;gap:10px}.hero-pricing-box{gap:10px;margin-bottom:18px}.price-regular{font-size:14.5px}.price-offer-highlight{padding:7px 14px;gap:8px}.price-offer-highlight .offer-tag{font-size:13px}.price-offer-highlight .offer-price{font-size:22px}.hero-meta{margin-top:20px;gap:14px;flex-wrap:wrap}.hero-stage{padding:0 0 28px;min-height:0;justify-content:center}.hero-media-box{width:100%;max-width:100%;justify-content:center}.hero-video-wrap{border-radius:12px;box-shadow:0 12px 30px rgba(45,22,32,.18)}.hero-media-img{max-height:360px}.trust-items{grid-template-columns:1fr;padding:8px 0}.trust-item{border:0;border-bottom:1px solid var(--line);padding:14px 4px}.trust-item:last-child{border:0}.feature-icon{width:42px;height:42px}.story{padding:50px 0;background:transparent}.why-luxos-card{grid-template-columns:1fr;gap:24px;padding:0;border:none;box-shadow:none;background:transparent}.why-luxos-content{padding:0}.why-luxos-media{min-height:280px;max-height:400px}.why-luxos-banner{margin-bottom:18px;padding:11px 18px;max-width:100%}.why-luxos-banner span{font-size:21px}.why-luxos-item{font-size:13.5px;gap:10px;line-height:1.5}.why-check{width:20px;height:20px;font-size:12.5px}.section-heading h2{font-size:clamp(39px,10vw,48px)}.video-order{padding:55px 0 65px;background:#f1eae5}.journey-grid{grid-template-columns:1fr;gap:28px}.journey-featured-card{max-height:480px}.journey-right-col{gap:26px}.journey-heading{font-size:36px;margin-bottom:16px}.journey-subgrid{gap:14px}.customer-reviews{padding:60px 0 65px}.review-card{flex:0 0 88%;height:380px}.faq{padding:34px 0 38px;height:auto;min-height:0}.showcase-header{padding:0 16px 18px}.showcase-title{font-size:clamp(23px,6.8vw,29px)}.showcase-marquee-wrap{padding:8px 0 12px;-webkit-mask-image:linear-gradient(to right,transparent 0%,black 4%,black 96%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,black 4%,black 96%,transparent 100%)}.showcase-marquee-track{gap:26px;animation-duration:22s}.showcase-card{padding:4px 6px}.showcase-card:hover{transform:none}.showcase-img{height:165px;max-width:175px;filter:drop-shadow(0 10px 18px rgba(45,20,28,0.15))}.showcase-img-card{height:155px;width:155px;border-radius:12px}.last-cta{padding:55px 14px 65px}.categories-title{font-size:clamp(26px,7vw,32px);margin-bottom:28px}.categories-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px 8px;justify-items:center}.category-item{width:100%;max-width:82px}.category-circle-wrap{width:70px;height:70px;border-width:2px;border-color:#ffffff;box-shadow:0 0 0 2px rgba(255,255,255,0.22),0 6px 16px rgba(0,0,0,0.4);margin-bottom:8px}.category-label{font-size:9px;letter-spacing:.6px}footer{padding:50px 0 30px}.footer-grid{grid-template-columns:1fr 1fr;gap:36px}.footer-col-brand{grid-column:span 2}.footer-col-club{grid-column:span 2}.footer-bottom-inner{flex-direction:column;align-items:flex-start;gap:16px}.footer-payments{width:100%;justify-content:flex-start}.sticky-mobile{display:flex;position:fixed;z-index:55;bottom:0;left:0;right:0;background:#fffdf9;padding:11px 15px max(11px,env(safe-area-inset-bottom));border-top:1px solid #e4d8d2;box-shadow:0 -8px 26px #251c191f;align-items:center;justify-content:space-between;gap:13px}.sticky-price{display:flex;flex-direction:column;font-size:18px;color:var(--wine);font-weight:900}.sticky-price small{font-size:9px;color:#9b8f88;font-weight:650}.sticky-mobile a{background:var(--wine);color:white;padding:13px 20px;font-size:12px;font-weight:800;border-radius:3px}body{padding-bottom:70px}}
+    @media(max-width:440px){.container{width:calc(100% - 24px)}.nav-tagline{font-size:15px}.hero-prod-title{font-size:clamp(23px,7.5vw,27px)}.hero-actions{flex-direction:column;align-items:stretch;gap:10px;width:100%}.hero-order-btn{font-size:15px;min-height:54px;padding:14px 18px}.btn-primary{width:100%;justify-content:center;min-height:50px}.link-watch{justify-content:center}.hero-video-wrap{border-radius:10px}.hero-media-img{height:300px}.form-line{gap:7px}.journey-heading{font-size:30px}.journey-card-title{font-size:14px}.review-card{flex:0 0 94%;height:350px}.faq{padding:26px 0 30px}.showcase-header{padding:0 14px 14px}.showcase-title{font-size:24px}.showcase-marquee-track{gap:20px;animation-duration:18s}.showcase-img{height:145px;max-width:155px;filter:drop-shadow(0 8px 14px rgba(45,20,28,0.14))}.showcase-img-card{height:138px;width:138px;border-radius:10px}.footer-grid{grid-template-columns:1fr;gap:28px}.footer-col-brand,.footer-col-club{grid-column:span 1}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
   </style>
 </head>
@@ -280,7 +278,7 @@
             <span class="eyebrow-line"></span>
           </div>
           <h2 class="reviews-title">আমাদের গ্রাহকদের অভিজ্ঞতা</h2>
-          <p class="reviews-subtitle">LUXOS ব্যবহারকারীদের নিজের কথায়।</p>
+          <p class="reviews-subtitle">ফেসবুক থেকে আমাদের সম্মানিত গ্রাহকদের বাস্তব রিভিউ স্ক্রিনশট।</p>
         </div>
 
         <!-- Carousel Outer -->
@@ -288,134 +286,37 @@
           <!-- Viewport with sliding track -->
           <div class="reviews-viewport" id="reviewsViewport">
             <div class="reviews-track" id="reviewsTrack">
-              <!-- Card 1 -->
-              <div class="review-card">
-                <div class="review-quote-icon">“</div>
-                <h3 class="review-quote-text">ব্যাগটা সত্যিই দারুণ!</h3>
-                <div class="review-author">
-                  <div class="review-avatar">SH</div>
-                  <div class="review-author-meta">
-                    <span class="review-name">Salman Habib</span>
-                    <span class="review-source">Facebook comment</span>
-                  </div>
-                </div>
+              <div class="review-card" onclick="openReviewLightbox('assets/486099850_674555051762113_3357534810597169259_n.jpg')">
+                <img src="assets/486099850_674555051762113_3357534810597169259_n.jpg" alt="ফেসবুক রিভিউ স্ক্রিনশট" class="review-screenshot-img" loading="lazy" />
+                <div class="review-zoom-hint">🔍</div>
               </div>
-
-              <!-- Card 2 -->
-              <div class="review-card">
-                <div class="review-quote-icon">“</div>
-                <h3 class="review-quote-text">আলহামদুলিল্লাহ, খুব ভালো একটি ব্যাগ।</h3>
-                <div class="review-author">
-                  <div class="review-avatar">IA</div>
-                  <div class="review-author-meta">
-                    <span class="review-name">MD Iftekhar Alam</span>
-                    <span class="review-source">Facebook comment</span>
-                  </div>
-                </div>
+              <div class="review-card" onclick="openReviewLightbox('assets/486000728_674553531762265_1768004237586237947_n.jpg')">
+                <img src="assets/486000728_674553531762265_1768004237586237947_n.jpg" alt="ফেসবুক রিভিউ স্ক্রিনশট" class="review-screenshot-img" loading="lazy" />
+                <div class="review-zoom-hint">🔍</div>
               </div>
-
-              <!-- Card 3 -->
-              <div class="review-card">
-                <div class="review-quote-icon">“</div>
-                <h3 class="review-quote-text">অসাধারণ একটা ব্যাগ (ব্যবহার করছি)</h3>
-                <div class="review-author">
-                  <div class="review-avatar">MH</div>
-                  <div class="review-author-meta">
-                    <span class="review-name">MD Monjil Hossain</span>
-                    <span class="review-source">Facebook comment</span>
-                  </div>
-                </div>
+              <div class="review-card" onclick="openReviewLightbox('assets/611844138_900309759186640_5585400270138904301_n.jpg')">
+                <img src="assets/611844138_900309759186640_5585400270138904301_n.jpg" alt="ফেসবুক রিভিউ স্ক্রিনশট" class="review-screenshot-img" loading="lazy" />
+                <div class="review-zoom-hint">🔍</div>
               </div>
-
-              <!-- Card 4 -->
-              <div class="review-card">
-                <div class="review-quote-icon">“</div>
-                <h3 class="review-quote-text">কোয়ালিটি এবং ফিনিশিং এক কথায় অসাধারণ। দাম অনুযায়ী সেরা ব্যাগ!</h3>
-                <div class="review-author">
-                  <div class="review-avatar">TA</div>
-                  <div class="review-author-meta">
-                    <span class="review-name">Tanvir Ahmed</span>
-                    <span class="review-source">Facebook comment</span>
-                  </div>
-                </div>
+              <div class="review-card" onclick="openReviewLightbox('assets/485834154_674551108429174_9055713824269885095_n.jpg')">
+                <img src="assets/485834154_674551108429174_9055713824269885095_n.jpg" alt="ফেসবুক রিভিউ স্ক্রিনশট" class="review-screenshot-img" loading="lazy" />
+                <div class="review-zoom-hint">🔍</div>
               </div>
-
-              <!-- Card 5 -->
-              <div class="review-card">
-                <div class="review-quote-icon">“</div>
-                <h3 class="review-quote-text">চেইন এবং ফেব্রিকের কোয়ালিটি অনেক প্রিমিয়াম। ট্রাভেলের জন্য পারফেক্ট।</h3>
-                <div class="review-author">
-                  <div class="review-avatar">RK</div>
-                  <div class="review-author-meta">
-                    <span class="review-name">Rashedul Karim</span>
-                    <span class="review-source">Facebook comment</span>
-                  </div>
-                </div>
+              <div class="review-card" onclick="openReviewLightbox('assets/584945762_864655886085361_8740432324322961083_n.jpg')">
+                <img src="assets/584945762_864655886085361_8740432324322961083_n.jpg" alt="ফেসবুক রিভিউ স্ক্রিনশট" class="review-screenshot-img" loading="lazy" />
+                <div class="review-zoom-hint">🔍</div>
               </div>
-
-              <!-- Card 6 -->
-              <div class="review-card">
-                <div class="review-quote-icon">“</div>
-                <h3 class="review-quote-text">ছবিতে যেমন দেখেছি বাস্তবে তার চেয়েও বেশি সুন্দর পেয়েছি। ধন্যবাদ Luxos!</h3>
-                <div class="review-author">
-                  <div class="review-avatar">NR</div>
-                  <div class="review-author-meta">
-                    <span class="review-name">Naimur Rahman</span>
-                    <span class="review-source">Facebook comment</span>
-                  </div>
-                </div>
+              <div class="review-card" onclick="openReviewLightbox('assets/why-luxos-clean.png')">
+                <img src="assets/why-luxos-clean.png" alt="ফেসবুক রিভিউ স্ক্রিনশট" class="review-screenshot-img" loading="lazy" />
+                <div class="review-zoom-hint">🔍</div>
               </div>
-
-              <!-- Card 7 -->
-              <div class="review-card">
-                <div class="review-quote-icon">“</div>
-                <h3 class="review-quote-text">প্যাকেজিং আর ডেলিভারি খুবই দ্রুত ছিল। ১০০% স্যাটিসফাইড!</h3>
-                <div class="review-author">
-                  <div class="review-avatar">SM</div>
-                  <div class="review-author-meta">
-                    <span class="review-name">Shakil Mahmud</span>
-                    <span class="review-source">Facebook comment</span>
-                  </div>
-                </div>
+              <div class="review-card" onclick="openReviewLightbox('assets/journey-look-modern-freedom.png')">
+                <img src="assets/journey-look-modern-freedom.png" alt="ফেসবুক রিভিউ স্ক্রিনশট" class="review-screenshot-img" loading="lazy" />
+                <div class="review-zoom-hint">🔍</div>
               </div>
-
-              <!-- Card 8 -->
-              <div class="review-card">
-                <div class="review-quote-icon">“</div>
-                <h3 class="review-quote-text">অফিস এবং ট্যুর দুটোর জন্যই দারুণ কমফোর্টেবল এবং স্টাইলিশ।</h3>
-                <div class="review-author">
-                  <div class="review-avatar">FC</div>
-                  <div class="review-author-meta">
-                    <span class="review-name">Fahim Chowdhury</span>
-                    <span class="review-source">Facebook comment</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Card 9 -->
-              <div class="review-card">
-                <div class="review-quote-icon">“</div>
-                <h3 class="review-quote-text">ল্যাপটপ চেম্বার ও স্পেস চমৎকার। নিখুঁত লাক্সারি ফিল দেয়।</h3>
-                <div class="review-author">
-                  <div class="review-avatar">AZ</div>
-                  <div class="review-author-meta">
-                    <span class="review-name">Abrar Zahin</span>
-                    <span class="review-source">Facebook comment</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Card 10 -->
-              <div class="review-card">
-                <div class="review-quote-icon">“</div>
-                <h3 class="review-quote-text">প্রিমিয়াম লুকিং ওয়াটারপ্রুফ ব্যাগ। দৈনন্দিন ব্যবহারের সেরা পছন্দ!</h3>
-                <div class="review-author">
-                  <div class="review-avatar">KH</div>
-                  <div class="review-author-meta">
-                    <span class="review-name">Kamrul Hasan</span>
-                    <span class="review-source">Facebook comment</span>
-                  </div>
-                </div>
+              <div class="review-card" onclick="openReviewLightbox('assets/journey-look-elegance.png')">
+                <img src="assets/journey-look-elegance.png" alt="ফেসবুক রিভিউ স্ক্রিনশট" class="review-screenshot-img" loading="lazy" />
+                <div class="review-zoom-hint">🔍</div>
               </div>
             </div>
           </div>
@@ -653,6 +554,14 @@
     </div>
   </footer>
   <div class="sticky-mobile"><span class="sticky-price" id="stickyPrice">৳ ২,৩৫০ <small>অফার মূল্য · ডেলিভারি আলাদা</small></span><a href="#order">অর্ডার করুন ↗</a></div>
+  <!-- REVIEW SCREENSHOT LIGHTBOX MODAL -->
+  <div id="reviewLightboxModal" class="review-lightbox-backdrop" onclick="closeReviewLightbox(event)" style="display:none;">
+    <div class="review-lightbox-content" onclick="event.stopPropagation()">
+      <button type="button" class="review-lightbox-close" onclick="closeReviewLightbox(event)" aria-label="বন্ধ করুন">✕</button>
+      <img id="reviewLightboxImg" src="" alt="ফেসবুক রিভিউ স্ক্রিনশট" class="review-lightbox-img" />
+    </div>
+  </div>
+
   <!-- ORDER POPUP MODAL -->
   <dialog id="orderModal" class="order-popup-dialog">
     <div class="order-popup-header">
@@ -1107,6 +1016,29 @@
       catch{byId('copyOrder').textContent='বিবরণ সিলেক্ট করে কপি করুন'}
     });
 
+    // Review Screenshot Lightbox Controller
+    function openReviewLightbox(src) {
+      if (!src) return;
+      const modal = byId('reviewLightboxModal');
+      const img = byId('reviewLightboxImg');
+      if (modal && img) {
+        img.src = src;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    function closeReviewLightbox(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const modal = byId('reviewLightboxModal');
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeReviewLightbox();
+    });
+
     // Customer Reviews Carousel Controller (Bottom Nav)
     let updateReviewsCarousel = null;
     let slideReviewsNext = null;
@@ -1373,40 +1305,20 @@
           }
         }
 
-        // 7. Reviews
+        // 7. Reviews (Facebook Review Screenshots)
         if (d.reviews && Array.isArray(d.reviews) && d.reviews.length > 0) {
           const track = document.getElementById('reviewsTrack');
           if (track) {
-            const isImgUrl = (str) => {
-              if (!str || typeof str !== 'string') return false;
-              const s = str.trim().toLowerCase();
-              return s.startsWith('data:image/') || s.startsWith('http://') || s.startsWith('https://') || s.startsWith('assets/') || s.startsWith('/assets/') || s.startsWith('/api/') || /\.(png|jpe?g|webp|svg|gif|avif)$/i.test(s);
-            };
-
             track.innerHTML = d.reviews.map(r => {
-              const avContent = isImgUrl(r.avatar)
-                ? `<img src="${escapeHtml(r.avatar)}" alt="${escapeHtml(r.name || 'Customer')}" class="review-avatar-img" />`
-                : escapeHtml(r.avatar || 'LX');
-
-              const photoBlock = (r.image && isImgUrl(r.image))
-                ? `<div class="review-media-wrap"><img src="${escapeHtml(r.image)}" class="review-media-img" alt="Review photo" loading="lazy" /></div>`
-                : '';
-
+              const src = typeof r === 'string' ? r : (r.image || r.img || r.screenshot || r.avatar || '');
+              if (!src) return '';
               return `
-                <div class="review-card">
-                  <div class="review-quote-icon">“</div>
-                  <h3 class="review-quote-text">${escapeHtml(r.quote || '')}</h3>
-                  ${photoBlock}
-                  <div class="review-author">
-                    <div class="review-avatar">${avContent}</div>
-                    <div class="review-author-meta">
-                      <span class="review-name">${escapeHtml(r.name || '')}</span>
-                      <span class="review-source">${escapeHtml(r.source || 'Facebook review')}</span>
-                    </div>
-                  </div>
+                <div class="review-card" onclick="openReviewLightbox('${escapeHtml(src)}')">
+                  <img src="${escapeHtml(src)}" alt="গ্রাহকের ফেসবুক রিভিউ" class="review-screenshot-img" loading="lazy" />
+                  <div class="review-zoom-hint">🔍</div>
                 </div>
               `;
-            }).join('');
+            }).filter(Boolean).join('');
             if (typeof initReviewsCarousel === 'function') initReviewsCarousel();
           }
         }

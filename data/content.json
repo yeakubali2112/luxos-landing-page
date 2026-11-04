@@ -104,40 +104,28 @@
   },
   "reviews": [
     {
-      "name": "Salman Habib",
-      "source": "Facebook comment",
-      "avatar": "SH",
-      "quote": "চমৎকার প্রিমিয়াম কোয়ালিটি! চামড়ার ফিনিশিং এবং সেলাই সত্যিই অসাধারণ।"
+      "image": "assets/486099850_674555051762113_3357534810597169259_n.jpg"
     },
     {
-      "name": "MD Iftekhar Alam",
-      "source": "Facebook comment",
-      "avatar": "IA",
-      "quote": "অর্ডার করার ২ দিনের মধ্যেই পেয়েছি। যেমন দেখেছি ছবিতে ঠিক তেমনই পেয়েছি।"
+      "image": "assets/486000728_674553531762265_1768004237586237947_n.jpg"
     },
     {
-      "name": "MD Monjil Hossain",
-      "source": "Facebook comment",
-      "avatar": "MH",
-      "quote": "অফিসের কাজের জন্য পারফেক্ট সাইজ। অনেকগুলো জিনিস সুন্দরভাবে রাখা যায়।"
+      "image": "assets/611844138_900309759186640_5585400270138904301_n.jpg"
     },
     {
-      "name": "Tanvir Ahmed",
-      "source": "Facebook comment",
-      "avatar": "TA",
-      "quote": "কোয়ালিটি অনুযায়ী দাম খুবই রিজনেবল। বন্ধুদেরও সাজেস্ট করেছি।"
+      "image": "assets/485834154_674551108429174_9055713824269885095_n.jpg"
     },
     {
-      "name": "Rashedul Karim",
-      "source": "Facebook comment",
-      "avatar": "RK",
-      "quote": "মেটাল লক আর চেইনের কোয়ালিটি বেশ স্মুথ এবং প্রিমিয়াম ফিল দেয়।"
+      "image": "assets/584945762_864655886085361_8740432324322961083_n.jpg"
     },
     {
-      "name": "Nafis Rahman",
-      "source": "Facebook review",
-      "avatar": "NR",
-      "quote": "হাতে পেয়ে সত্যিই মুগ্ধ! ছবিতে যেমন সুন্দর বাস্তবে তার চেয়েও প্রিমিয়াম।"
+      "image": "assets/why-luxos-clean.png"
+    },
+    {
+      "image": "assets/journey-look-modern-freedom.png"
+    },
+    {
+      "image": "assets/journey-look-elegance.png"
     }
   ],
   "showcaseSection": {
