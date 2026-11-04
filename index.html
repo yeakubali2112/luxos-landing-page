@@ -1158,21 +1158,30 @@
     });
 
     // Customer Reviews Carousel Controller (Bottom Nav)
-    const reviewsTrack = byId('reviewsTrack');
-    const reviewsViewport = byId('reviewsViewport');
-    const reviewsPrevBtn = byId('reviewsPrevBtn');
-    const reviewsNextBtn = byId('reviewsNextBtn');
-    const reviewsCounter = byId('reviewsCounter');
+    let updateReviewsCarousel = null;
+    let slideReviewsNext = null;
+    let slideReviewsPrev = null;
 
-    if (reviewsTrack && reviewsViewport) {
-      const cards = reviewsTrack.querySelectorAll('.review-card');
+    function initReviewsCarousel() {
+      const track = byId('reviewsTrack');
+      const viewport = byId('reviewsViewport');
+      const prevBtn = byId('reviewsPrevBtn');
+      const nextBtn = byId('reviewsNextBtn');
+      const counter = byId('reviewsCounter');
+
+      if (!track || !viewport) return;
+
+      const cards = track.querySelectorAll('.review-card');
       const totalCards = cards.length;
+      if (totalCards === 0) return;
+
       let currentIndex = 0;
 
       function getVisibleCount() {
-        if (window.innerWidth <= 700) return 1;
-        if (window.innerWidth <= 980) return 2;
-        if (window.innerWidth <= 1260) return 4;
+        const w = window.innerWidth;
+        if (w <= 760) return 1;
+        if (w <= 1100) return 3;
+        if (w <= 1360) return 4;
         return 5;
       }
 
@@ -1180,70 +1189,99 @@
         return Math.max(0, totalCards - getVisibleCount());
       }
 
-      function updateCarousel(animate = true) {
+      function update(animate = true) {
         const maxIdx = getMaxIndex();
         if (currentIndex > maxIdx) currentIndex = maxIdx;
         if (currentIndex < 0) currentIndex = 0;
 
-        if (cards.length > 0) {
-          const cardWidth = cards[0].offsetWidth;
-          const gap = 18;
-          const offset = currentIndex * (cardWidth + gap);
-          reviewsTrack.style.transition = animate ? 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
-          reviewsTrack.style.transform = `translateX(-${offset}px)`;
+        if (cards[currentIndex] && cards[0]) {
+          const offset = cards[currentIndex].offsetLeft - cards[0].offsetLeft;
+          track.style.transition = animate ? 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
+          track.style.transform = `translate3d(-${offset}px, 0, 0)`;
         }
 
-        if (reviewsCounter) {
-          const totalPages = maxIdx + 1;
-          const currentP = currentIndex + 1;
-          reviewsCounter.textContent = `0${currentP} / 0${totalPages}`;
+        if (counter) {
+          const totalSteps = maxIdx + 1;
+          const currentStep = currentIndex + 1;
+          counter.textContent = `${String(currentStep).padStart(2, '0')} / ${String(totalSteps).padStart(2, '0')}`;
         }
       }
 
-      function slideNext() {
+      function next() {
         const maxIdx = getMaxIndex();
         currentIndex = currentIndex >= maxIdx ? 0 : currentIndex + 1;
-        updateCarousel(true);
+        update(true);
       }
 
-      function slidePrev() {
+      function prev() {
         const maxIdx = getMaxIndex();
         currentIndex = currentIndex <= 0 ? maxIdx : currentIndex - 1;
-        updateCarousel(true);
+        update(true);
       }
 
-      if (reviewsNextBtn) reviewsNextBtn.addEventListener('click', slideNext);
-      if (reviewsPrevBtn) reviewsPrevBtn.addEventListener('click', slidePrev);
+      updateReviewsCarousel = update;
+      slideReviewsNext = next;
+      slideReviewsPrev = prev;
 
-      window.addEventListener('resize', () => {
-        updateCarousel(false);
+      if (nextBtn) {
+        nextBtn.onclick = (e) => {
+          e.preventDefault();
+          next();
+        };
+      }
+      if (prevBtn) {
+        prevBtn.onclick = (e) => {
+          e.preventDefault();
+          prev();
+        };
+      }
+
+      // Attach click to all review links to open order modal
+      document.querySelectorAll('.review-link').forEach(link => {
+        link.onclick = (e) => {
+          e.preventDefault();
+          openOrderModal();
+        };
       });
 
-      // Touch / swipe support on mobile
+      // Initial layout update
+      update(false);
+    }
+
+    // Touch / swipe support on mobile (attached once to viewport)
+    (function setupReviewsTouch() {
+      const viewport = byId('reviewsViewport');
+      if (!viewport) return;
       let touchStartX = 0;
+      let touchStartY = 0;
       let isTouching = false;
-      reviewsViewport.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-        isTouching = true;
+
+      viewport.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+          isTouching = true;
+        }
       }, { passive: true });
-      reviewsViewport.addEventListener('touchend', (e) => {
+
+      viewport.addEventListener('touchend', (e) => {
         if (!isTouching) return;
         isTouching = false;
         const diffX = e.changedTouches[0].clientX - touchStartX;
-        if (diffX < -40) slideNext();
-        else if (diffX > 40) slidePrev();
+        const diffY = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+          if (diffX < 0 && typeof slideReviewsNext === 'function') slideReviewsNext();
+          else if (diffX > 0 && typeof slideReviewsPrev === 'function') slideReviewsPrev();
+        }
       }, { passive: true });
 
-      setTimeout(() => updateCarousel(false), 50);
-    }
-
-    // Review card links open order modal
-    document.querySelectorAll('.review-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        openOrderModal();
+      window.addEventListener('resize', () => {
+        if (typeof updateReviewsCarousel === 'function') updateReviewsCarousel(false);
       });
-    });
+    })();
+
+    // Initialize carousel on initial page load
+    initReviewsCarousel();
 
     function initFaqProductAnimation(){
       const custom = CONFIG.faqProductImage;
@@ -1399,7 +1437,7 @@
           if (track) {
             track.innerHTML = d.reviews.map(r => `
               <div class="review-card">
-                <div class="review-quote-icon">"</div>
+                <div class="review-quote-icon">“</div>
                 <h3 class="review-quote-text">${escapeHtml(r.quote || '')}</h3>
                 <div class="review-author">
                   <div class="review-avatar">${escapeHtml(r.avatar || 'LX')}</div>
