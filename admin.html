@@ -1823,7 +1823,7 @@
       <section id="tab-reviews" class="tab-pane">
         <div class="card">
           <h2 class="card-title">গ্রাহকের রিভিউ কার্ডসমূহ</h2>
-          <p class="card-desc">কাস্টমারদের নাম, সোর্স (Facebook comment) এবং প্রশংসাসূচক উক্তি যোগ বা এডিট করুন।</p>
+          <p class="card-desc">কাস্টমারদের নাম, সোর্স (Facebook comment), প্রোফাইল ফটো/অবতার, প্রোডাক্ট ছবি ও প্রশংসাসূচক উক্তি যোগ বা এডিট করুন।</p>
           <div id="reviews_container"></div>
           <button type="button" class="btn-add-item" onclick="addReviewItem()">+ নতুন কাস্টমার রিভিউ যুক্ত করুন</button>
           <div class="card-save-row">
@@ -2621,6 +2621,8 @@
       reviews.forEach((r, i) => {
         const box = document.createElement('div');
         box.className = 'repeater-box';
+        const hasAvatarImg = r.avatar && (r.avatar.includes('/') || r.avatar.includes('.') || r.avatar.startsWith('data:'));
+        const hasReviewImg = !!r.image;
         box.innerHTML = `
           <div class="repeater-header">
             <span class="repeater-tag">রিভিউ #${i+1}</span>
@@ -2635,9 +2637,39 @@
               <label>সোর্স / প্ল্যাটফর্ম</label>
               <input type="text" class="rev-source" value="${escapeHtml(r.source || 'Facebook comment')}" placeholder="Facebook comment"/>
             </div>
-            <div class="form-group">
-              <label>নামের শর্টকাট (Avatar Initials)</label>
-              <input type="text" class="rev-avatar" value="${escapeHtml(r.avatar || '')}" placeholder="SH"/>
+            <div class="form-group full">
+              <label>কাস্টমারের ছবি / প্রোফাইল অবতার (Avatar Photo / Initials)</label>
+              <div class="img-upload-group">
+                <img src="${escapeHtml(hasAvatarImg ? r.avatar : '')}" 
+                     class="img-preview-thumb rev-avatar-thumb" 
+                     alt="Avatar Preview" 
+                     style="${hasAvatarImg ? '' : 'display:none;'}"
+                     onerror="this.style.display='none'"/>
+                <div style="flex:1;">
+                  <input type="text" class="rev-avatar" value="${escapeHtml(r.avatar || '')}" placeholder="ছবির লিংক অথবা আদ্যক্ষর (যেমন: SH)" oninput="const th=this.closest('.img-upload-group').querySelector('.img-preview-thumb'); if(th){ th.src=this.value; th.style.display=(this.value && (this.value.includes('/')||this.value.includes('.')))?'block':'none'; }"/>
+                  <div class="file-input-btn" style="margin-top:6px;">
+                    <button type="button" class="btn-secondary" style="font-size:11.5px;padding:6px 12px;">📁 কাস্টমারের ছবি আপলোড</button>
+                    <input type="file" accept="image/*" onchange="uploadAssetToInput(event, this)"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group full">
+              <label>রিভিউ / প্রোডাক্ট ফটো (ঐচ্ছিক - Review Photo)</label>
+              <div class="img-upload-group">
+                <img src="${escapeHtml(r.image || '')}" 
+                     class="img-preview-thumb rev-image-thumb" 
+                     alt="Review Photo Preview" 
+                     style="${hasReviewImg ? '' : 'display:none;'}"
+                     onerror="this.style.display='none'"/>
+                <div style="flex:1;">
+                  <input type="text" class="rev-image" value="${escapeHtml(r.image || '')}" placeholder="কাস্টমারের তোলা প্রোডাক্টের ছবি বা স্ক্রিনশটের লিংক (ঐচ্ছিক)" oninput="const th=this.closest('.img-upload-group').querySelector('.img-preview-thumb'); if(th){ th.src=this.value; th.style.display=this.value?'block':'none'; }"/>
+                  <div class="file-input-btn" style="margin-top:6px;">
+                    <button type="button" class="btn-secondary" style="font-size:11.5px;padding:6px 12px;">📁 রিভিউ ছবি আপলোড</button>
+                    <input type="file" accept="image/*" onchange="uploadAssetToInput(event, this)"/>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="form-group full">
               <label>রিভিউ উক্তি (Quote)</label>
@@ -2667,9 +2699,31 @@
             <label>সোর্স</label>
             <input type="text" class="rev-source" value="Facebook comment"/>
           </div>
-          <div class="form-group">
-            <label>Avatar Initials</label>
-            <input type="text" class="rev-avatar" placeholder="যেমন: AB"/>
+          <div class="form-group full">
+            <label>কাস্টমারের ছবি / প্রোফাইল অবতার (Avatar Photo / Initials)</label>
+            <div class="img-upload-group">
+              <img src="" class="img-preview-thumb rev-avatar-thumb" alt="Avatar Preview" style="display:none;" onerror="this.style.display='none'"/>
+              <div style="flex:1;">
+                <input type="text" class="rev-avatar" placeholder="যেমন: SH অথবা ছবি আপলোড করুন" oninput="const th=this.closest('.img-upload-group').querySelector('.img-preview-thumb'); if(th){ th.src=this.value; th.style.display=(this.value && (this.value.includes('/')||this.value.includes('.')))?'block':'none'; }"/>
+                <div class="file-input-btn" style="margin-top:6px;">
+                  <button type="button" class="btn-secondary" style="font-size:11.5px;padding:6px 12px;">📁 কাস্টমারের ছবি আপলোড</button>
+                  <input type="file" accept="image/*" onchange="uploadAssetToInput(event, this)"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group full">
+            <label>রিভিউ / প্রোডাক্ট ফটো (ঐচ্ছিক - Review Photo)</label>
+            <div class="img-upload-group">
+              <img src="" class="img-preview-thumb rev-image-thumb" alt="Review Photo Preview" style="display:none;" onerror="this.style.display='none'"/>
+              <div style="flex:1;">
+                <input type="text" class="rev-image" placeholder="কাস্টমারের তোলা প্রোডাক্টের ছবি বা স্ক্রিনশটের লিংক (ঐচ্ছিক)" oninput="const th=this.closest('.img-upload-group').querySelector('.img-preview-thumb'); if(th){ th.src=this.value; th.style.display=this.value?'block':'none'; }"/>
+                <div class="file-input-btn" style="margin-top:6px;">
+                  <button type="button" class="btn-secondary" style="font-size:11.5px;padding:6px 12px;">📁 রিভিউ ছবি আপলোড</button>
+                  <input type="file" accept="image/*" onchange="uploadAssetToInput(event, this)"/>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="form-group full">
             <label>রিভিউ উক্তি</label>
@@ -2678,6 +2732,7 @@
         </div>
       `;
       c.appendChild(box);
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     function renderShowcaseImages(images) {
@@ -2896,9 +2951,12 @@
         const name = b.querySelector('.rev-name').value.trim();
         const src = b.querySelector('.rev-source').value.trim();
         const av = b.querySelector('.rev-avatar').value.trim();
+        const img = b.querySelector('.rev-image') ? b.querySelector('.rev-image').value.trim() : '';
         const q = b.querySelector('.rev-quote').value.trim();
         if (name || q) {
-          d.reviews.push({ name, source: src, avatar: av, quote: q });
+          const rev = { name, source: src, avatar: av, quote: q };
+          if (img) rev.image = img;
+          d.reviews.push(rev);
         }
       });
 
@@ -3045,7 +3103,10 @@
               const textInput = container.querySelector('input[type="text"]');
               const thumb = container.querySelector('.img-preview-thumb');
               if (textInput) textInput.value = result.path;
-              if (thumb) thumb.src = result.path;
+              if (thumb) {
+                thumb.src = result.path;
+                thumb.style.display = 'block';
+              }
             }
             showToast('ছবি সফলভাবে আপলোড হয়েছে!');
           }
