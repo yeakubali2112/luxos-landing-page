@@ -1178,15 +1178,11 @@
       track.innerHTML = renderCards(false) + renderCards(true);
     }
 
-    async function hydratePageFromApi() {
+    function applyPageData(d) {
+      if (!d) return;
       try {
-        const res = await fetch('/api/content?t=' + Date.now());
-        if (!res.ok) return;
-        const d = await res.json();
-        if (!d) return;
-
         // 1. General & Announcement
-        if (d.general) {
+      if (d.general) {
           if (d.general.announcement) {
             const tag = document.querySelector('.nav-tagline');
             if (tag) tag.textContent = d.general.announcement;
@@ -1387,6 +1383,26 @@
         updateTotals();
         initHeroMedia();
       } catch (e) {
+        console.warn('applyPageData error:', e);
+      }
+    }
+
+    async function hydratePageFromApi() {
+      // 1. Immediate load from local storage cache if available
+      try {
+        const cached = localStorage.getItem('luxos_live_content');
+        if (cached) applyPageData(JSON.parse(cached));
+      } catch(e){}
+
+      // 2. Fresh fetch from server
+      try {
+        const res = await fetch('/api/content?t=' + Date.now());
+        if (!res.ok) return;
+        const d = await res.json();
+        if (!d) return;
+        applyPageData(d);
+        try { localStorage.setItem('luxos_live_content', JSON.stringify(d)); } catch(e){}
+      } catch(e){
         console.warn('Hydration skipped:', e);
       }
     }

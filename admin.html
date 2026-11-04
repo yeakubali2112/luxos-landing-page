@@ -2951,6 +2951,7 @@
         const result = await res.json();
         if (result.ok) {
           globalContent = data;
+          try { localStorage.setItem('luxos_live_content', JSON.stringify(data)); } catch(e){}
           showToast('✅ সমস্ত সেটিংস ও কন্টেন্ট সফলভাবে সেভ করা হয়েছে!');
           if (btn) {
             btn.style.background = 'linear-gradient(135deg, #18a94e 0%, #15803d 100%)';
@@ -2990,70 +2991,81 @@
       URL.revokeObjectURL(url);
     }
 
+    function fileToOptimizedDataUrl(file, maxWidth = 1200, quality = 0.88) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            let w = img.width;
+            let h = img.height;
+            if (w > maxWidth || h > maxWidth) {
+              if (w > h) {
+                h = Math.round((h * maxWidth) / w);
+                w = maxWidth;
+              } else {
+                w = Math.round((w * maxWidth) / h);
+                h = maxWidth;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = () => resolve(e.target.result);
+          img.src = e.target.result;
+        };
+        reader.onerror = () => resolve('');
+        reader.readAsDataURL(file);
+      });
+    }
+
     // Asset Upload Handler
     async function uploadAsset(event, targetInputId, previewImgId) {
       const file = event.target.files[0];
       if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const base64Data = e.target.result;
-        try {
-          const res = await fetch('/api/upload', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ filename: file.name, data: base64Data })
-          });
-          const result = await res.json();
-          if (result.ok) {
-            byId(targetInputId).value = result.path;
-            if (previewImgId && byId(previewImgId)) byId(previewImgId).src = result.path;
-            showToast('ছবি সফলভাবে আপলোড হয়েছে!');
-          } else {
-            showToast('আপলোড ব্যর্থ হয়েছে: ' + result.error);
+      try {
+        const dataUrl = await fileToOptimizedDataUrl(file);
+        if (dataUrl) {
+          byId(targetInputId).value = dataUrl;
+          if (previewImgId && byId(previewImgId)) {
+            byId(previewImgId).src = dataUrl;
+            byId(previewImgId).style.display = 'block';
           }
-        } catch (err) {
-          console.error(err);
-          showToast('আপলোড করতে সমস্যা হয়েছে!');
+          showToast('ছবি সফলভাবে যুক্ত হয়েছে! নিচের সেভ বাটনে চাপ দিন।');
         }
-      };
-      reader.readAsDataURL(file);
+      } catch (err) {
+        console.error(err);
+        showToast('ছবি লোড করতে সমস্যা হয়েছে!');
+      }
     }
 
     // Upload Asset inside Dynamic Repeater
     async function uploadAssetToInput(event, fileInput) {
       const file = event.target.files[0];
       if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const base64Data = e.target.result;
-        try {
-          const res = await fetch('/api/upload', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ filename: file.name, data: base64Data })
-          });
-          const result = await res.json();
-          if (result.ok) {
-            const container = fileInput.closest('.img-upload-group');
-            if (container) {
-              const textInput = container.querySelector('input[type="text"]');
-              const thumb = container.querySelector('.img-preview-thumb');
-              if (textInput) textInput.value = result.path;
-              if (thumb) {
-                thumb.src = result.path;
-                thumb.style.display = 'block';
-              }
+      try {
+        const dataUrl = await fileToOptimizedDataUrl(file);
+        if (dataUrl) {
+          const container = fileInput.closest('.img-upload-group');
+          if (container) {
+            const textInput = container.querySelector('input[type="text"]');
+            const thumb = container.querySelector('.img-preview-thumb');
+            if (textInput) textInput.value = dataUrl;
+            if (thumb) {
+              thumb.src = dataUrl;
+              thumb.style.display = 'block';
             }
-            showToast('ছবি সফলভাবে আপলোড হয়েছে!');
           }
-        } catch (err) {
-          console.error(err);
-          showToast('ছবি আপলোডে ত্রুটি!');
+          showToast('স্ক্রিনশট সফলভাবে যুক্ত হয়েছে! নিচে সেভ বাটনে চাপ দিন।');
         }
-      };
-      reader.readAsDataURL(file);
+      } catch (err) {
+        console.error(err);
+        showToast('ছবি লোড করতে সমস্যা হয়েছে!');
+      }
     }
 
     function escapeHtml(str) {
